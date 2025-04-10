@@ -1,0 +1,14 @@
+/Users/dimitar/Habbit Project/habbitMain/bin/Debug/net9.0/habbitMain
+/Users/dimitar/Habbit Project/habbitMain/bin/Debug/net9.0/habbitMain.deps.json
+/Users/dimitar/Habbit Project/habbitMain/bin/Debug/net9.0/habbitMain.runtimeconfig.json
+/Users/dimitar/Habbit Project/habbitMain/bin/Debug/net9.0/habbitMain.dll
+/Users/dimitar/Habbit Project/habbitMain/bin/Debug/net9.0/habbitMain.pdb
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.AssemblyInfoInputs.cache
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.AssemblyInfo.cs
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.csproj.CoreCompileInputs.cache
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.dll
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/refint/habbitMain.dll
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.pdb
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.genruntimeconfig.cache
+/Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/ref/habbitMain.dll
