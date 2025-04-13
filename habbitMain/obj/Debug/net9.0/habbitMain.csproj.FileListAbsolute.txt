@@ -12,3 +12,18 @@
 /Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.pdb
 /Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/habbitMain.genruntimeconfig.cache
 /Users/dimitar/Habbit Project/habbitMain/obj/Debug/net9.0/ref/habbitMain.dll
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\bin\Debug\net9.0\habbitMain.exe
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\bin\Debug\net9.0\habbitMain.deps.json
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\bin\Debug\net9.0\habbitMain.runtimeconfig.json
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\bin\Debug\net9.0\habbitMain.dll
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\bin\Debug\net9.0\habbitMain.pdb
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.AssemblyInfoInputs.cache
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.AssemblyInfo.cs
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.csproj.CoreCompileInputs.cache
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.sourcelink.json
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.dll
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\refint\habbitMain.dll
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.pdb
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\habbitMain.genruntimeconfig.cache
+C:\Users\OGS\Desktop\Habit-Project\Habbit-Project\habbitMain\obj\Debug\net9.0\ref\habbitMain.dll

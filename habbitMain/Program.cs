@@ -1,204 +1,213 @@
-﻿using System.Net;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 namespace habbitMain;
-
 class Program
 {
-    public static Dictionary<string, List<DateTime>> habits = new Dictionary<string, List<DateTime>>();
+    static string filePath = "habits.json";
+
+    static List<Habit> LoadHabits()
+    {
+        if (!File.Exists(filePath)) return new List<Habit>();
+    
+        string json = File.ReadAllText(filePath);
+        return JsonSerializer.Deserialize<List<Habit>>(json) ?? new List<Habit>();
+    }
+
+    static void SaveHabits(List<Habit> habits)
+    {
+        string json = JsonSerializer.Serialize(habits, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(filePath, json);
+    }
+
+    public static List<Habit> habits = LoadHabits();
+
     public static Dictionary<string, List<DateTime>> DoneHabits = new Dictionary<string, List<DateTime>>();
     static void Main(string[] args)
     {
-        System.Console.WriteLine($"Welcome to the Habit Tracker!");
-        bool exit = false;
-        while(!exit)
+        while (true)
         {
-            Console.WriteLine(
-                            $"Please select an option: 1, 2, 3, 4, 5, 6\n" +
-                            $"1: Add a new habit \n" +
-                            $"2: Mark habit as done \n" +
-                            $"3: View progress for a habit \n" +
-                            $"4: View all habits with streak \n" +
-                            $"5: Delete a habit \n" +
-                            $"6: Exit");
-            string inputUser = Console.ReadLine();
-            int input;
-            input = int.TryParse(inputUser, out input) ? input : 0;
-            
-            if (input == 6)
+            Console.WriteLine("\n--- Habit Tracker Menu ---");
+            Console.WriteLine("1. Add a habit");
+            Console.WriteLine("2. Mark habit as done");
+            Console.WriteLine("3. View all habits");
+            Console.WriteLine("4. View progress");
+            Console.WriteLine("5. Delete a habit");
+            Console.WriteLine("6. Exit");
+
+            string input = Console.ReadLine();
+
+            switch (input)
             {
-                exit = true;
-                Console.WriteLine("Exiting the program...");
-                continue;
-            }
-            else if(input == 1)
-            {
-                AddHabit();
-            }
-            else if (input == 2)
-            {
-                MarkHabitAsDone();
-            }
-            else if (input == 3)
-            {
-                ViewProgressForHabit();
-            }
-            else if (input == 4)
-            {
-                ViewAllHabitsWithStreak();
-            }
-            else if (input == 5)
-            {
-                DeleteHabit();
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter: 1, 2, 3, 4, 5, 6");
-                continue;
+                case "1":
+                    AddHabit();
+                    break;
+                case "2":
+                    MarkHabitAsDone();
+                    break;
+                case "3":
+                    ViewAllHabits();
+                    break;
+                case "4":
+                    ViewProgress();
+                    break;
+                case "5":
+                    DeleteHabit();
+                    break;
+                case "6":
+                    Console.WriteLine("Goodbye!");
+                    return;
+                default:
+                    Console.WriteLine("Invalid choice. Try again.");
+                    break;
             }
         }
     }
+
     static void AddHabit()
     {
         Console.WriteLine("Enter the name of the habit:");
         string habitName = Console.ReadLine().Trim();
-        if (string.IsNullOrWhiteSpace(habitName)) {
-            Console.WriteLine("Habit name cannot be empty.");
-            return;
-        }
 
-        if (habits.ContainsKey(habitName))
+        if (string.IsNullOrWhiteSpace(habitName))
         {
-            Console.WriteLine("Habit already exists.");
-            return;
-        }
-        else
-        {
-            habits[habitName] = new List<DateTime>();
-            Console.WriteLine($"Habit '{habitName}' added.");
-            System.Console.WriteLine("Do you want to add a date for this habit? (y/n)");
-            string addDate = Console.ReadLine();
-            
-            if (addDate.ToLower() == "y")
-            {
-                System.Console.WriteLine("Enter the date (yyyy-mm-dd):");
-                string input = Console.ReadLine();  
-                DateTime date;
-                if (DateTime .TryParse(input, out date))
-                {
-                    habits[habitName].Add(date);
-                    System.Console.WriteLine($"Date '{date.ToString("yyyy-MM-dd")}' successfully added to habit '{habitName}'.");
-                }
-                else
-                {
-                    System.Console.WriteLine("Invalid date format. Please try again. ");
-                }
-            }
-        }
+        Console.WriteLine("Habit name cannot be empty.");
+        return;
     }
-    static void MarkHabitAsDone()
+
+    var existingHabit = habits.FirstOrDefault(h => h.Name == habitName);
+    if (existingHabit != null)
     {
-        System.Console.WriteLine("Enter the name of the habit you want to mark as done:");
-        foreach (var item in habits)
+        Console.WriteLine("Habit already exists. Do you want to add a date to it? (y/n)");
+        string choice = Console.ReadLine();
+
+        if (choice.ToLower() == "y")
         {
-            Console.WriteLine(item.Key);
-        }
-        string habitName = Console.ReadLine().Trim();
-        if (string.IsNullOrWhiteSpace(habitName)) {
-            Console.WriteLine("Habit name cannot be empty.");
-            return;
-        }
-
-        if (habits.ContainsKey(habitName))
-        {
-            System.Console.WriteLine("Do you want to mark as done for today or a specific date? (t/s)");
-            string input = Console.ReadLine();
-            if(input.ToLower() == "t")
+            Console.WriteLine("Enter date (yyyy-mm-dd):");
+            if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
             {
-                if (!DoneHabits.ContainsKey(habitName))
-                    DoneHabits[habitName] = new List<DateTime>();
-                DoneHabits[habitName].Add(DateTime.Now);
-
-                System.Console.WriteLine("Do you want to keep your habit? (y/n)");
-                string keepHabit = Console.ReadLine();
-                if (keepHabit.ToLower() == "y")
-                {
-                    System.Console.WriteLine($"Habit {habitName} marked as done for today.");
-                }
-                else if (keepHabit == "n")
-                {
-                    DoneHabits.Remove(habitName);
-                    System.Console.WriteLine($"Habit '{habitName}' removed.");
-                }
-                else
-                {
-                    System.Console.WriteLine("Invalid input. Please enter: y or n");
-                }
-            }
-            else if (input.ToLower() == "s")
-            {
-                System.Console.WriteLine($"Available dates for '{habitName}':");
-                foreach (var item in habits[habitName])
-                {
-                    Console.WriteLine(item.ToString("yyyy-MM-dd"));
-                }
-                System.Console.WriteLine("Enter the date (yyyy-mm-dd):");
-                string dateInput = Console.ReadLine();
-                if(DateTime.TryParse(dateInput, out DateTime date))
-                {
-                    if (habits[habitName].Contains(date))
-                    {
-                        if (!DoneHabits.ContainsKey(habitName))
-                            DoneHabits[habitName] = new List<DateTime>();
-                        DoneHabits[habitName].Add(date);
-
-                        System.Console.WriteLine("Do you want to keep your habit? (y/n)");
-                        string keepHabit = Console.ReadLine();
-                        if(keepHabit.ToLower() == "y")
-                        {
-                            System.Console.WriteLine($"Habit '{habitName}' marked as done for {date.ToString("yyyy-MM-dd")}");
-                        }
-                        else if (keepHabit == "n")
-                        {
-                            DoneHabits.Remove(habitName);
-                            System.Console.WriteLine($"Habit '{habitName}' marked as done for {date.ToString("yyyy-MM-dd")} And it is removed.");
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("Invalid input. Please enter: y or n");
-                        }
-                    }
-                    else
-                    {
-                        System.Console.WriteLine($"Date '{date.ToString("yyyy-MM-dd")}' not found for habit '{habitName}'.");
-                    }
-                }
-                else
-                {
-                    System.Console.WriteLine("Invalid date format. Please try again.");
-                }
+                existingHabit.Dates.Add(date);
+                SaveHabits(habits);
+                Console.WriteLine("Date added!");
             }
             else
             {
-                System.Console.WriteLine("Invalid input. Please enter: t or s");
-                return;
+                Console.WriteLine("Invalid date format.");
+            }
+        }
+
+        return;
+    }
+
+    var newHabit = new Habit { Name = habitName };
+    habits.Add(newHabit);
+    SaveHabits(habits);
+    Console.WriteLine($"Habit '{habitName}' added.");
+    
+}
+    static void MarkHabitAsDone()
+{
+    if (habits.Count == 0)
+    {
+        Console.WriteLine("No habits available.");
+        return;
+    }
+
+    Console.WriteLine("Select a habit to mark as done today:");
+    for (int i = 0; i < habits.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {habits[i].Name}");
+    }
+
+    if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= habits.Count)
+    {
+        habits[choice - 1].Dates.Add(DateTime.Today);
+        SaveHabits(habits);
+        Console.WriteLine("Habit marked as done for today!");
+    }
+    else
+    {
+        Console.WriteLine("Invalid choice.");
+    }
+}
+
+
+    static void ViewProgress()
+    {
+        if (habits.Count == 0)
+        {
+            Console.WriteLine("No habits found.");
+            return;
+        }
+
+        Console.WriteLine("Select a habit to view its progress:");
+        for (int i = 0; i < habits.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {habits[i].Name}");
+        }
+
+        if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= habits.Count)
+        {
+            var habit = habits[choice - 1];
+            Console.WriteLine($"Progress for '{habit.Name}':");
+            if (habit.Dates.Count == 0)
+            {
+                Console.WriteLine("No progress recorded yet.");
+            }
+            else
+            {
+                foreach (var date in habit.Dates)
+                {
+                    Console.WriteLine(date.ToString("yyyy-MM-dd"));
+                }
             }
         }
         else
         {
-            System.Console.WriteLine("Habit not found.");
-            return;
+            Console.WriteLine("Invalid choice.");
         }
     }
-    static void ViewProgressForHabit()
-    {
 
-    }
-    static void ViewAllHabitsWithStreak()
-    {
-
-    }
     static void DeleteHabit()
     {
+        if (habits.Count == 0)
+        {
+            Console.WriteLine("No habits to delete.");
+            return;
+        }
 
+        Console.WriteLine("Select a habit to delete:");
+        for (int i = 0; i < habits.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {habits[i].Name}");
+        }
+
+        if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= habits.Count)
+        {
+            string removedName = habits[choice - 1].Name;
+            habits.RemoveAt(choice - 1);
+            SaveHabits(habits);
+            Console.WriteLine($"Habit '{removedName}' deleted.");
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
+}
+
+   static void ViewAllHabits()
+    {
+        if (habits.Count == 0)
+        {
+            Console.WriteLine("No habits to display.");
+            return;
+        }
+
+        Console.WriteLine("Your Habits:");
+        foreach (var habit in habits)
+        {
+            Console.WriteLine($"- {habit.Name} | Days Done: {habit.Dates.Count}");
+        }
     }
 }
